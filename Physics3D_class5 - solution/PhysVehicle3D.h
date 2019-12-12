@@ -50,6 +50,9 @@ public:
 	void Brake(float force);
 	void Turn(float degrees);
 	float GetKmh() const;
+
+	//Rotate Vehicle not gradually (start)
+	void Rotate(float degrees);
 public:
 
 	VehicleInfo info;

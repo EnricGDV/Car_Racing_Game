@@ -8,6 +8,7 @@
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
 {
 	turn = acceleration = brake = 0.0f;
+	pos.Set(0, 10, 0);
 }
 
 ModulePlayer::~ModulePlayer()
@@ -40,7 +41,7 @@ bool ModulePlayer::Start()
 	// Don't change anything below this line ------------------
 
 	float half_width = car.chassis_size.x*0.5f;
-	float half_length = car.chassis_size.z*0.5f;
+	float half_length = car.chassis_size.z*0.45f;
 	
 	vec3 direction(0,-1,0);
 	vec3 axis(-1,0,0);
@@ -97,7 +98,9 @@ bool ModulePlayer::Start()
 	car.wheels[3].steering = false;
 
 	vehicle = App->physics->AddVehicle(car);
-	vehicle->SetPos(0, 12, 10);
+
+	vehicle->SetPos(pos.x, pos.y, pos.z);
+	vehicle->Rotate(3.14f);
 	
 	return true;
 }
@@ -115,9 +118,25 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT)
+	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LEFT) != KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) != KEY_REPEAT)
 	{
 		acceleration = MAX_ACCELERATION;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
+	{
+		acceleration = MAX_ACCELERATION;
+
+		if (turn < TURN_DEGREES)
+			turn += TURN_DEGREES;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) == KEY_REPEAT)
+	{
+		acceleration = MAX_ACCELERATION;
+
+		if (turn < TURN_DEGREES)
+			turn -= TURN_DEGREES;
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_LEFT) == KEY_REPEAT)
@@ -146,6 +165,9 @@ update_status ModulePlayer::Update(float dt)
 	char title[80];
 	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
 	App->window->SetTitle(title);
+
+	btTransform t;
+	pos = vehicle->GetPos();
 
 	return UPDATE_CONTINUE;
 }
