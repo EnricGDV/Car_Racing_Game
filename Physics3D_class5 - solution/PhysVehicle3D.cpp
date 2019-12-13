@@ -25,7 +25,7 @@ void PhysVehicle3D::Render()
 {
 	Cylinder wheel;
 
-	wheel.color = Blue;
+	wheel.color = Black;
 
 	for(int i = 0; i < vehicle->getNumWheels(); ++i)
 	{
@@ -39,6 +39,9 @@ void PhysVehicle3D::Render()
 	}
 
 	Cube chassis(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z);
+
+	chassis.color = Yellow;
+
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
 	btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
 	btVector3 offset(info.chassis_offset.x, info.chassis_offset.y, info.chassis_offset.z);
@@ -92,4 +95,29 @@ void PhysVehicle3D::Turn(float degrees)
 float PhysVehicle3D::GetKmh() const
 {
 	return vehicle->getCurrentSpeedKmHour();
+}
+
+void PhysVehicle3D::Rotate(float angle)
+{
+	// Counter clock-wise rotation around the y axis
+
+	float mat[16];
+	memset(mat, 0.0f, sizeof(mat));
+
+	// Position
+	vec3 p = GetPos();
+	mat[12] = p.x;
+	mat[13] = p.y;
+	mat[14] = p.z;
+	mat[15] = 1;
+
+	// Rotation
+	mat[0] = cos(angle);
+	mat[2] = -sin(angle);
+	mat[5] = 1;
+	mat[8] = sin(angle);
+	mat[10] = cos(angle);
+
+	SetTransform(mat);
+
 }
