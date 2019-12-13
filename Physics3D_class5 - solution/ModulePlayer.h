@@ -26,4 +26,5 @@ public:
 	float acceleration;
 	float brake;
 	vec3 pos;
+	vec3 initPos;
 };

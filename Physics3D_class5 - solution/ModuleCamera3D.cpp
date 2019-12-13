@@ -12,7 +12,7 @@ ModuleCamera3D::ModuleCamera3D(Application* app, bool start_enabled) : Module(ap
 	Y = vec3(0.0f, 1.0f, 0.0f);
 	Z = vec3(0.0f, 0.0f, 1.0f);
 
-	Position = vec3(0.0f, 0.0f, 5.0f);
+	Distance = vec3(-8, 4, -8);
 	Reference = vec3(0.0f, 0.0f, 0.0f);
 }
 
@@ -42,26 +42,35 @@ update_status ModuleCamera3D::Update(float dt)
 	// Implement a debug camera with keys and mouse
 	// Now we can make this movememnt frame rate independant!
 
+	if (App->input->GetKey(SDL_SCANCODE_F10) == KEY_DOWN)
+		following = !following;
+
+	if (following)
+	{
+		btVector3 fv = App->player->vehicle->vehicle->getForwardVector();
+		Position = vec3(App->player->pos.x + (Distance.x * fv.getX()), App->player->pos.y + Distance.y + fv.getY(), App->player->pos.z + (Distance.z * fv.getZ()));
+		Look(Position, vec3(App->player->pos.x, App->player->pos.y + 2, App->player->pos.z), true);
+		App->player->vehicle->vehicle->getForwardVector();
+	}
+	else
+	{
+		vec3 newPos(0, 0, 0);
+		float speed = 3.0f * dt;
+		if (App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
+			speed = 8.0f * dt;
+
+		if (App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
+		if (App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
+
+		if (App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
+		if (App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
 
 
-	vec3 newPos(0, 0, 0);
-	float speed = 3.0f * dt;
-	if(App->input->GetKey(SDL_SCANCODE_LSHIFT) == KEY_REPEAT)
-		speed = 8.0f * dt;
+		if (App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
+		if (App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
 
-	if(App->input->GetKey(SDL_SCANCODE_R) == KEY_REPEAT) newPos.y += speed;
-	if(App->input->GetKey(SDL_SCANCODE_F) == KEY_REPEAT) newPos.y -= speed;
-
-	if(App->input->GetKey(SDL_SCANCODE_W) == KEY_REPEAT) newPos -= Z * speed;
-	if(App->input->GetKey(SDL_SCANCODE_S) == KEY_REPEAT) newPos += Z * speed;
-
-
-	if(App->input->GetKey(SDL_SCANCODE_A) == KEY_REPEAT) newPos -= X * speed;
-	if(App->input->GetKey(SDL_SCANCODE_D) == KEY_REPEAT) newPos += X * speed;
-	
-	Position += newPos;
-	//Position = vec3(App->player->pos.x, App->player->pos.y + 2, App->player->pos.z + 10);
-	//LookAt(App->player->pos);
+		Position += newPos;
+	}
 	
 
 	// Mouse motion ----------------

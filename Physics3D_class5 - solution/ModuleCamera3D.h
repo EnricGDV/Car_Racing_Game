@@ -24,7 +24,8 @@ private:
 
 public:
 	
-	vec3 X, Y, Z, Position, Reference;
+	vec3 X, Y, Z, Position, Reference, Distance;
+	bool following;
 
 private:
 
