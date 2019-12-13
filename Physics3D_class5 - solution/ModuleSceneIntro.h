@@ -28,7 +28,8 @@ public:
 	bool CleanUp();
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
-	void CreateCube(const vec3 iniPos, const vec3 finalPos, uint intervals);
+	void CreateRoad(const vec3 iniPos, const vec3 finalPos, uint intervals);
+	void CreateLine(const vec3 iniPos, const vec3 finalPos, uint intervals);
 
 public:
 	/*
