@@ -22,6 +22,11 @@ bool ModuleSceneIntro::Start()
 	CreateLine({ -48.0f, 0.0f, -10.0f }, { -48.0f, 0.0f, 20.0f }, 16, true);
 	CreateLine({ 0.0f, 0.0f, -30.0f }, { 0.0f, 0.0f, -60.0f }, 16, true);
 	CreateLine({ -48.0f, 0.0f, -30.0f }, { -48.0f, 0.0f, -60.0f }, 16, true);
+	CreateLine({ 98.0f, 0.0f, -30.0f }, { 98.0f, 0.0f, -60.0f }, 16, true);
+	CreateLine({ 98.0f, 0.0f, -10.0f }, { 98.0f, 0.0f, 20.0f }, 16, true);
+	CreateLine({ 98.0f, 0.0f, 40.0f }, { 98.0f, 0.0f, 70.0f }, 16, true);
+	CreateLine({ 98.0f, 0.0f, 70.0f }, { 98.0f, 0.0f, 100.0f }, 16, true);
+	CreateLine({ 98.0f, 0.0f, 100.0f }, { 98.0f, 0.0f, 130.0f }, 16, true);
 	CreateLine({ 48.0f, 0.0f, -10.0f }, { 48.0f, 0.0f, 20.0f }, 16, true);
 	CreateLine({ 48.0f, 0.0f, -30.0f }, { 48.0f, 0.0f, -60.0f }, 16, true);
 	CreateLine({ 48.0f, 0.0f, 40.0f }, { 48.0f, 0.0f, 70.0f }, 16, true);
@@ -42,7 +47,30 @@ bool ModuleSceneIntro::Start()
 	CreateLine({ 0.0f, 0.0f, 100.0f }, { 0.0f, 0.0f, 70.0f }, 16, true);
 	CreateLine({ -10.0f, 0.0f, 30.0f }, { -40.0f, 0.0f, 30.0f }, 16, true);
 
-	CreateLine({ 8.0f, 0.0f, 30.0f }, { -22.0f, 0.0f, 30.0f }, 16, false);
+	CreateLine({ 10.0f, 0.0f, 30.0f }, { -10.0f, 0.0f, 30.0f }, 10, false);
+	CreateLine({ -40.0f, 0.0f, 30.0f }, { -60.0f, 0.0f, 30.0f }, 10, false);
+
+
+	CreateLine({ 98.0f, 0.0f, 20.0f }, { 98.0f, 0.0f, 40.0f }, 10, false);
+	CreateLine({ 98.0f, 0.0f, -30.0f }, { 98.0f, 0.0f, -10.0f }, 10, false);
+	CreateLine({ 98.0f, 0.0f, -78.0f }, { 98.0f, 0.0f, -58.0f }, 10, false);
+	CreateLine({ 98.0f, 0.0f, 130.0f }, { 98.0f, 0.0f, 150.0f }, 10, false);
+
+	CreateLine({ -48.0f, 0.0f, -10.0f }, { -48.0f, 0.0f, -30.0f }, 10, false);
+	CreateLine({ -48.0f, 0.0f, -60.0f }, { -48.0f, 0.0f, -80.0f }, 10, false);
+	CreateLine({ -48.0f, 0.0f, 38.0f }, { -48.0f, 0.0f, 18.0f }, 10, false);
+
+	CreateLine({ 58.0f, 0.0f, 140.0f }, { 38.0f, 0.0f, 140.0f }, 10, false);
+	CreateLine({ 108.0f, 0.0f, 140.0f }, { 86.0f, 0.0f, 140.0f }, 10, false);
+	CreateLine({ 10.0f, 0.0f, 140.0f }, { -10.0f, 0.0f, 140.0f }, 10, false);
+
+	CreateLine({ 38.0f, 0.0f, -70.0f }, { 58.0f, 0.0f, -70.0f }, 10, false);
+	CreateLine({ 88.0f, 0.0f, -70.0f }, { 108.0f, 0.0f, -70.0f }, 10, false);
+	CreateLine({ -10.0f, 0.0f, -70.0f }, { 10.0f, 0.0f, -70.0f }, 10, false);
+	CreateLine({ -58.0f, 0.0f, -70.0f }, { -38.0f, 0.0f, -70.0f }, 10, false);
+
+	CreateLine({ 0.0f, 0.0f, 150.0f }, { 0.0f, 0.0f, 130.0f }, 10, false);
+
 	CreateLine({ 0.0f, 0.0f, 70.0f }, { 0.0f, 0.0f, 40.0f }, 16, false);
 
 
@@ -199,11 +227,11 @@ void ModuleSceneIntro::CreateClients()
 	}
 
 	//Placing clients
-	clients[0].SetPos(-4, 0.25f, -20);
-	clients[1].SetPos(4, 0.25f, -20);
-	clients[2].SetPos(-4, 0.25f, 20);
+	clients[0].SetPos(-50, 0.25f, -75);
+	clients[1].SetPos(0, 0.25f, -20);
+	clients[2].SetPos(100, 0.25f, 135);
 	clients[3].SetPos(80, 0.25f, -20);
-	clients[4].SetPos(-80, 0.25f, 20);
+	clients[4].SetPos(23, 0.25f, 125);
 }
 
 
@@ -213,16 +241,16 @@ void ModuleSceneIntro::ChangeGoal(int num)
 	switch (num)
 	{
 	case 0:
-		goalPos = vec3(250, 5, 200);
+		goalPos = vec3(100, 5, 100);
 		break;
 	case 1: 
-		goalPos = vec3(-80, 5, 50);
+		goalPos = vec3(-40, 5, 30);
 		break;
 	case 2:
-		goalPos = vec3(150, 5, -100);
+		goalPos = vec3(100, 5, 0);
 		break;
 	case 3:
-		goalPos = vec3(-200, 5, -300);
+		goalPos = vec3(75, 5, -75);
 		break;
 	case 4:
 		goalPos = vec3(0, 5, 0);
