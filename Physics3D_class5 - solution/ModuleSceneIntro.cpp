@@ -4,6 +4,7 @@
 #include "Primitive.h"
 #include "PhysBody3D.h"
 #include "PhysVehicle3D.h"
+#include "ModuleAudio.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -17,6 +18,7 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
+	
 
 	CreateLine({ 0.0f, 0.0f, -10.0f }, { 0.0f, 0.0f, 20.0f }, 16, true);
 	CreateLine({ -48.0f, 0.0f, -10.0f }, { -48.0f, 0.0f, 20.0f }, 16, true);
@@ -87,6 +89,8 @@ bool ModuleSceneIntro::Start()
 	arrow.destination = vec3(arrow.destination.x / 10, arrow.destination.y / 10, arrow.destination.z / 10);
 	arrow.color = Green;
 	arrowp = arrow;
+
+	App->audio->PlayMusic("Music/Middle_Children.ogg");
 
 	satisfiedcl = 0;
 	game_timer.Start();
