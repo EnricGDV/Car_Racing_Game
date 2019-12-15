@@ -1,4 +1,4 @@
-# :yellow_car: Crazy Taxi :yellow_car:
+# :yellow_car: Not So Crazy Taxi :yellow_car:
 
 This is a little taxi driving game made by two second year students of the Videogame Design and Development degree.
 Get all the clients to their destination before the time ends!
@@ -36,11 +36,12 @@ You should brake if you want the clients to get on or off the taxi!
 ### Credits
 We do not own any of the sprites, tilesets, music or sfx presented in this game. Authors credited below
 
--Music:       Hell(Bowser's Castle Theme - Mario Kart Wii) --> https://www.youtube.com/watch?v=h5bfQHMf6iA
-	      Heaven(Main Theme - Kid Icarus Uprising) --> https://www.youtube.com/watch?v=k6nOPEMaWAw
+-Music:       Crazy Taxi Theme --> https://youtu.be/OvjhBDuBXYQ
 
--SFX:  	      https://www.sounds-resource.com/game_boy_advance/kirbyandtheamazingmirror/sound/3137/
-
+-SFX:  	      Victory          --> https://www.youtube.com/watch?v=737y4Mvxai8
+	      New Client       --> https://www.youtube.com/watch?v=RdxJ5c3MG1M
+              Goal Reached     --> https://www.myinstants.com/instant/ka-ching/
+              Lose             --> https://www.myinstants.com/instant/the-price-is-right-losing-horn/
 
 
 Enjoy!

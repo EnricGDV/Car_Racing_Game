@@ -44,6 +44,10 @@ public:
 	*/
 
 	Cubes cube_pieces;
+	Cube doorp;
+	Cube hingep;
+	PhysBody3D* doorb;
+	PhysBody3D* hingeb;
 	Cylinder goalp;
 	Line arrowp;
 	vec3 goalPos;

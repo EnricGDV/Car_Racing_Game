@@ -46,7 +46,7 @@ bool ModuleSceneIntro::Start()
 	CreateLine({ 58.0f, 0.0f, 140.0f }, { 88.0, 0.0f, 140.0f }, 16, true);
 	CreateLine({ 58.0f, 0.0f, 140.0f }, { 88.0, 0.0f, 140.0f }, 16, true);
 	CreateLine({ 0.0f, 0.0f, 130.0f }, { 0.0f, 0.0f, 100.0f }, 16, true);
-	CreateLine({ 0.0f, 0.0f, 100.0f }, { 0.0f, 0.0f, 70.0f }, 16, true);
+	CreateLine({ 0.0f, 0.0f, 100.0f }, { 0.0f, 0.0f, 60.0f }, 20, true);
 	CreateLine({ -10.0f, 0.0f, 30.0f }, { -40.0f, 0.0f, 30.0f }, 16, true);
 
 	CreateLine({ 10.0f, 0.0f, 30.0f }, { -10.0f, 0.0f, 30.0f }, 10, false);
@@ -73,20 +73,30 @@ bool ModuleSceneIntro::Start()
 
 	CreateLine({ 0.0f, 0.0f, 150.0f }, { 0.0f, 0.0f, 130.0f }, 10, false);
 
-	CreateLine({ 0.0f, 0.0f, 70.0f }, { 0.0f, 0.0f, 40.0f }, 16, false);
+	CreateLine({ 0.0f, 0.0f, 60.0f }, { 0.0f, 0.0f, 40.0f }, 10, false);
 
+	Cube hinge(1.0f, 2.0f, 1.0f);
+	hinge.color = Grey;
+	hinge.SetPos(10.0f, 1.0f, 62.0f);
+	hingeb = App->physics->AddBody(hinge, 0.0f);
+	Cube door(1.0f, 2.0f, 15.0f);
+	door.color = Grey;
+	door.SetPos(10.0f, 1.0f, 52.0f);
+	doorb = App->physics->AddBody(door);
+	App->physics->AddConstraintHinge(*doorb, *hingeb, vec3(0.0f, 0.0f, 9.0f), vec3(0.0f, 0.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f), vec3(0.0f, 1.0f, 0.0f));
+	doorp = door;
 
-	goalPos = vec3(50, 5, 20);
+	goalPos = vec3(50.0f, 5.0f, 20.0f);
 	CreateClients();
 
-	Cylinder goal(5, 50);
+	Cylinder goal(5.0f, 50.0f);
 	goal.color = TransparentGreen;
-	goal.SetRotation(90, vec3(0, 0, 1));
+	goal.SetRotation(90.0f, vec3(0.0f, 0.0f, 1.0f));
 	goalp = goal;
 
-	Line arrow(goalPos.x, 1, goalPos.z);
+	Line arrow(goalPos.x, 1.0f, goalPos.z);
 	arrow.origin = App->player->pos;
-	arrow.destination = vec3(arrow.destination.x / 10, arrow.destination.y / 10, arrow.destination.z / 10);
+	arrow.destination = vec3(arrow.destination.x / 10.0f, arrow.destination.y / 10.0f, arrow.destination.z / 10.0f);
 	arrow.color = Green;
 	arrowp = arrow;
 
@@ -119,22 +129,22 @@ bool ModuleSceneIntro::CleanUp()
 // Update
 update_status ModuleSceneIntro::Update(float dt)
 {
-	Plane p(0, 1, 0, 0);
-	Cube floor(1000, 0.01, 1000);
-	Cube building1(20, 70, 80);
-	building1.SetPos(75, 0, 85);
-	Cube building2(20, 60, 20);
-	building2.SetPos(75, 0, 5);
-	Cube building3(20, 40, 20);
-	building3.SetPos(75, 0, -45);
-	Cube building4(20, 30, 20);
-	building4.SetPos(23, 0, -45);
-	Cube building5(20, 80, 20);
-	building5.SetPos(-25, 0, -45);
-	Cube building6(20, 35, 20);
-	building6.SetPos(23, 0, 5);
-	Cube building7(20, 60, 20);
-	building7.SetPos(-25, 0, 5);
+	Plane p(0.0f, 1.0f, 0.0f, 0.0f);
+	Cube floor(1000.0f, 0.01f, 1000.0f);
+	Cube building1(20.0f, 70.0f, 80.0f);
+	building1.SetPos(75.0f, 0.0f, 85.0f);
+	Cube building2(20.0f, 60.0f, 20.0f);
+	building2.SetPos(75.0f, 0.0f, 5.0f);
+	Cube building3(20.0f, 40.0f, 20.0f);
+	building3.SetPos(75.0f, 0.0f, -45.0f);
+	Cube building4(20.0f, 30.0f, 20.0f);
+	building4.SetPos(23.0f, 0.0f, -45.0f);
+	Cube building5(20.0f, 80.0f, 20.0f);
+	building5.SetPos(-25.0f, 0.0f, -45.0f);
+	Cube building6(20.0f, 35.0f, 20.0f);
+	building6.SetPos(23.0f, 0.0f, 5.0f);
+	Cube building7(20.0f, 60.0f, 20.0f);
+	building7.SetPos(-25.0f, 0.0f, 5.0f);
 	floor.color = Grey;
 	building1.color = Grey;
 	building1.Render();
@@ -150,6 +160,10 @@ update_status ModuleSceneIntro::Update(float dt)
 	building6.Render();
 	building7.color = Grey;
 	building7.Render();
+
+	doorb->GetTransform(doorp.transform.M);
+	doorp.Render();
+
 	floor.Render();
 	for (int i = 0; i < cube_pieces.primitive_bodies.Count(); i++)
 		cube_pieces.primitive_bodies[i].Render();
@@ -159,19 +173,19 @@ update_status ModuleSceneIntro::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
 	{
+		Restart();
 		App->audio->PlayFx(winFx);
 		App->player->vehicle->info.color = Green;
-		Restart();
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
 	{
 		Restart();
 		App->audio->PlayFx(loseFx);
-		App->player->vehicle->info.color = Red;;
+		App->player->vehicle->info.color = Red;
 	}
 
-	if (game_timer.Read() > 300000)
+	if (game_timer.Read() > 200000)
 	{
 		Restart();
 		App->audio->PlayFx(loseFx);
@@ -201,8 +215,8 @@ update_status ModuleSceneIntro::Update(float dt)
 			clients[App->player->client].transform.M[12] += lw_offset.getX();
 			clients[App->player->client].transform.M[13] += lw_offset.getY();
 			clients[App->player->client].transform.M[14] += lw_offset.getZ();
-			arrowp.destination = vec3(App->player->pos.x + (goalp.transform.M[12] - App->player->pos.x) / 50, App->player->pos.y + 3, App->player->pos.z + (goalp.transform.M[14] - App->player->pos.z ) / 50);
-			arrowp.origin = vec3(App->player->pos.x, App->player->pos.y+ 3, App->player->pos.z);
+			arrowp.destination = vec3(App->player->pos.x + (goalp.transform.M[12] - App->player->pos.x) / 50.0f, App->player->pos.y + 3, App->player->pos.z + (goalp.transform.M[14] - App->player->pos.z ) / 50.0f);
+			arrowp.origin = vec3(App->player->pos.x, App->player->pos.y+ 3.0f, App->player->pos.z);
 			goalp.Render();
 			arrowp.Render();
 
@@ -214,7 +228,7 @@ update_status ModuleSceneIntro::Update(float dt)
 
 				clients[App->player->client].color = Green;
 				clients[App->player->client].SetPos(App->player->pos.x, App->player->pos.y, App->player->pos.z);
-				clients[App->player->client].transform.M[12] += 2;
+				clients[App->player->client].transform.M[12] += 2.0f;
 				clients[App->player->client].transform.M[13] = 0.25f;
 				satisfiedcl++;
 				App->player->vehicle->GetTransform(App->player->checkpointMat);
@@ -241,7 +255,7 @@ void ModuleSceneIntro::OnCollision(PhysBody3D* body1, PhysBody3D* body2)
 void ModuleSceneIntro::CreateLine(const vec3 initialPos, const vec3 finalPos, uint numCubes, bool isDouble)
 {
 
-	float distance = sqrt(pow(finalPos.x - initialPos.x, 2) + pow(finalPos.y - initialPos.y, 2) + pow(finalPos.z - initialPos.z, 2));
+	float distance = sqrt(pow(finalPos.x - initialPos.x, 2.0f) + pow(finalPos.y - initialPos.y, 2.0f) + pow(finalPos.z - initialPos.z, 2.0f));
 	float distanceSeg = distance / numCubes;
 
 	vec3 dir_v = finalPos - initialPos;
@@ -252,7 +266,7 @@ void ModuleSceneIntro::CreateLine(const vec3 initialPos, const vec3 finalPos, ui
 	perp_v /= perp_v_mod;
 
 	vec3 pos;
-	vec3 dim(1, 2, 1);
+	vec3 dim(1.0f, 2.0f, 1.0f);
 
 	Cube wall;
 	wall.color = White;
@@ -262,15 +276,15 @@ void ModuleSceneIntro::CreateLine(const vec3 initialPos, const vec3 finalPos, ui
 	{
 		if (isDouble)
 		{
-			pos = (initialPos + (dir_v * j * distanceSeg)) + ((TRACK_WIDTH / 2) * perp_v);
-			wall.SetPos(pos.x, pos.y + 1, pos.z);
+			pos = (initialPos + (dir_v * j * distanceSeg)) + ((TRACK_WIDTH / 2.0f) * perp_v);
+			wall.SetPos(pos.x, pos.y + 1.0f, pos.z);
 			cube_pieces.primitive_bodies.PushBack(wall);
 			cube_pieces.physic_bodies.PushBack(App->physics->AddBody(wall, 0.0f));
 		}
 		
 		
-		pos = (initialPos + (dir_v * j * distanceSeg)) + ((TRACK_WIDTH / 2) * -perp_v);
-		wall.SetPos(pos.x, pos.y + 1, pos.z);
+		pos = (initialPos + (dir_v * j * distanceSeg)) + ((TRACK_WIDTH / 2.0f) * -perp_v);
+		wall.SetPos(pos.x, pos.y + 1.0f, pos.z);
 		cube_pieces.primitive_bodies.PushBack(wall);
 		cube_pieces.physic_bodies.PushBack(App->physics->AddBody(wall, 0.0f));
 
@@ -288,11 +302,11 @@ void ModuleSceneIntro::CreateClients()
 	}
 
 	//Placing clients
-	clients[0].SetPos(-50, 0.25f, -75);
-	clients[1].SetPos(0, 0.25f, -20);
-	clients[2].SetPos(100, 0.25f, 135);
-	clients[3].SetPos(80, 0.25f, -20);
-	clients[4].SetPos(23, 0.25f, 125);
+	clients[0].SetPos(-50.0f, 0.25f, -75.0f);
+	clients[1].SetPos(0.0f, 0.25f, -20.0f);
+	clients[2].SetPos(100.0f, 0.25f, 135.0f);
+	clients[3].SetPos(80.0f, 0.25f, -20.0f);
+	clients[4].SetPos(23.0f, 0.25f, 125.0f);
 }
 
 
@@ -302,19 +316,19 @@ void ModuleSceneIntro::ChangeGoal(int num)
 	switch (num)
 	{
 	case 0:
-		goalPos = vec3(100, 5, 100);
+		goalPos = vec3(100.0f, 5.0f, 100.0f);
 		break;
 	case 1: 
-		goalPos = vec3(-40, 5, 30);
+		goalPos = vec3(-40.0f, 5.0f, 30.0f);
 		break;
 	case 2:
-		goalPos = vec3(100, 5, 0);
+		goalPos = vec3(100.0f, 5.0f, 0.0f);
 		break;
 	case 3:
-		goalPos = vec3(75, 5, -75);
+		goalPos = vec3(75.0f, 5.0f, -75.0f);
 		break;
 	case 4:
-		goalPos = vec3(0, 5, 0);
+		goalPos = vec3(0.0f, 5.0f, 0.0f);
 		break;
 
 	}
@@ -331,10 +345,10 @@ void ModuleSceneIntro::Restart()
 	{
 		clients[j].color = Red;
 	}
-	clients[0].SetPos(-50, 0.25f, -75);
-	clients[1].SetPos(0, 0.25f, -20);
-	clients[2].SetPos(100, 0.25f, 135);
-	clients[3].SetPos(80, 0.25f, -20);
-	clients[4].SetPos(23, 0.25f, 125);
+	clients[0].SetPos(-50.0f, 0.25f, -75.0f);
+	clients[1].SetPos(0.0f, 0.25f, -20.0f);
+	clients[2].SetPos(100.0f, 0.25f, 135.0f);
+	clients[3].SetPos(80.0f, 0.25f, -20.0f);
+	clients[4].SetPos(23.0f, 0.25f, 125.0f);
 }
 

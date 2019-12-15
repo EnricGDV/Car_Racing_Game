@@ -22,8 +22,8 @@ bool ModulePlayer::Start()
 	VehicleInfo car;
 
 	// Car properties ----------------------------------------
-	car.chassis_size.Set(2.2f, 0.5f, 5);
-	car.chassis_offset.Set(0, 1, 0);
+	car.chassis_size.Set(2.2f, 0.5f, 5.0f);
+	car.chassis_offset.Set(0.0f, 1.0f, 0.0f);
 	car.mass = 500.0f;
 	car.suspensionStiffness = 14.5f;
 	car.suspensionCompression = 0.83f;
@@ -125,6 +125,7 @@ update_status ModulePlayer::Update(float dt)
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
 		App->scene_intro->Restart();
+		vehicle->info.color = Yellow;
 	}
 
 	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
@@ -198,7 +199,7 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Render();
 
 	char title[80];
-	sprintf_s(title, "%.1f Km/h", vehicle->GetKmh());
+	sprintf_s(title, "%.1f Km/h, %ds left, %d/5 clients satisfied", vehicle->GetKmh(), 320 - App->scene_intro->game_timer.Read()/1000, App->scene_intro->satisfiedcl);
 	App->window->SetTitle(title);
 
 	btTransform t;
