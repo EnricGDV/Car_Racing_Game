@@ -129,7 +129,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
-	if (game_timer.Read() > 300000)
+	if (game_timer.Read() > 10000)
 	{
 		Restart();
 		App->player->vehicle->info.color = Red;
