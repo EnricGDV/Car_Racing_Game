@@ -29,7 +29,9 @@ public:
 
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	void CreateLine(const vec3 iniPos, const vec3 finalPos, uint numCubes, bool isDouble);
-	void CreateCircle(const vec3 centre, const vec3 radius, uint numCubes);
+	void CreateClients();
+
+	void ChangeGoal(int num);
 
 public:
 	/*
@@ -41,16 +43,7 @@ public:
 	*/
 
 	Cubes cube_pieces;
-
-	PhysBody3D* pb_chassis;
-	Cube p_chassis;
-
-	PhysBody3D* pb_wheel;
-	Cylinder p_wheel;
-
-	PhysBody3D* pb_wheel2;
-	Cylinder p_wheel2;
-
-	PhysMotor3D* left_wheel;
-	PhysMotor3D* right_wheel;
+	Cylinder goalp;
+	vec3 goalPos;
+	p2DynArray<Cube> clients;
 };

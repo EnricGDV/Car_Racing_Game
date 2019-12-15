@@ -9,6 +9,12 @@ struct PhysVehicle3D;
 #define TURN_DEGREES 15.0f * DEGTORAD
 #define BRAKE_POWER 1000.0f
 
+enum class state
+{
+	Empty,
+	Carrying
+};
+
 class ModulePlayer : public Module
 {
 public:
@@ -27,4 +33,8 @@ public:
 	float brake;
 	vec3 pos;
 	vec3 initPos;
+	state st;
+
+	//Client being carried
+	int client;
 };

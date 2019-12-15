@@ -101,6 +101,8 @@ bool ModulePlayer::Start()
 
 	vehicle->SetPos(initPos.x, initPos.y, initPos.z);
 	vehicle->Rotate(3.14f);
+
+	st = state::Empty;
 	
 	return true;
 }
@@ -118,10 +120,10 @@ update_status ModulePlayer::Update(float dt)
 {
 	turn = acceleration = brake = 0.0f;
 
-	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_REPEAT)
+	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
-		vehicle->SetPos(initPos.x, initPos.y, initPos.z);
-		brake = BRAKE_POWER;
+		vehicle->SetPos(initPos.x, initPos.y-10, initPos.z);
+
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LEFT) != KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) != KEY_REPEAT)
@@ -176,6 +178,11 @@ update_status ModulePlayer::Update(float dt)
 
 		if (turn > -TURN_DEGREES)
 			turn -= TURN_DEGREES;
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_SPACE) == KEY_REPEAT)
+	{
+		brake = BRAKE_POWER;
 	}
 
 	vehicle->ApplyEngineForce(acceleration);

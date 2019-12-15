@@ -3,7 +3,7 @@
 #include "ModuleSceneIntro.h"
 #include "Primitive.h"
 #include "PhysBody3D.h"
-#include "PhysBody3D.h"
+#include "PhysVehicle3D.h"
 
 ModuleSceneIntro::ModuleSceneIntro(Application* app, bool start_enabled) : Module(app, start_enabled)
 {
@@ -17,9 +17,6 @@ bool ModuleSceneIntro::Start()
 {
 	LOG("Loading Intro assets");
 	bool ret = true;
-
-	App->camera->Move(vec3(1.0f, 1.0f, 0.0f));
-	App->camera->LookAt(vec3(0, 0, 0));
 
 	CreateLine({ 0.0f, 0.0f, -10.0f }, { 0.0f, 0.0f, 20.0f }, 16, true);
 	CreateLine({ -48.0f, 0.0f, -10.0f }, { -48.0f, 0.0f, 20.0f }, 16, true);
@@ -48,6 +45,15 @@ bool ModuleSceneIntro::Start()
 	CreateLine({ 8.0f, 0.0f, 30.0f }, { -22.0f, 0.0f, 30.0f }, 16, false);
 	CreateLine({ 0.0f, 0.0f, 70.0f }, { 0.0f, 0.0f, 40.0f }, 16, false);
 
+
+	goalPos = vec3(50, 5, 20);
+	CreateClients();
+
+	Cylinder goal(5, 50);
+	goal.color = TransparentGreen;
+	goal.SetRotation(90, vec3(0, 0, 1));
+	goalp = goal;
+
 	return ret;
 }
 
@@ -70,6 +76,44 @@ update_status ModuleSceneIntro::Update(float dt)
 	floor.Render();
 	p.axis = true;
 	p.Render();
+
+	for (int i = 0; i < clients.Count(); i++)
+	{
+		
+		if ((abs(App->player->pos.x - clients[i].transform[12]) < 3 && abs(App->player->pos.z - clients[i].transform[14]) < 3) && App->player->brake == BRAKE_POWER && App->player->st == state::Empty && clients[i].color.g == 0.0f)
+		{
+ 			App->player->st = state::Carrying;
+			App->player->client = i;
+			
+			
+			goalp.SetPos(goalPos.x, goalPos.y, goalPos.z);
+
+		}
+
+		if (App->player->st == state::Carrying)
+		{
+			btQuaternion q = App->player->vehicle->vehicle->getChassisWorldTransform().getRotation();
+			App->player->vehicle->vehicle->getChassisWorldTransform().getOpenGLMatrix(&clients[App->player->client].transform);
+			btVector3 lw_offset(App->player->vehicle->info.chassis_offset.x + 0.5f, App->player->vehicle->info.chassis_offset.y + 0.5f, App->player->vehicle->info.chassis_offset.z - 0.6f);
+			lw_offset = lw_offset.rotate(q.getAxis(), q.getAngle());
+			clients[App->player->client].transform.M[12] += lw_offset.getX();
+			clients[App->player->client].transform.M[13] += lw_offset.getY();
+			clients[App->player->client].transform.M[14] += lw_offset.getZ();
+			goalp.Render();
+
+			if (abs(App->player->pos.x - goalp.transform[12]) < 3 && abs(App->player->pos.z - goalp.transform[14]) < 3 && App->player->brake == BRAKE_POWER)
+			{
+				ChangeGoal(i);
+				App->player->st = state::Empty;
+				clients[App->player->client].color = Green;
+				clients[App->player->client].SetPos(App->player->pos.x, App->player->pos.y, App->player->pos.z);
+				clients[App->player->client].transform.M[12] += 2;
+				clients[App->player->client].transform.M[13] = 0.25f;
+			}
+		}
+
+		clients[i].Render();
+	}
 
 	return UPDATE_CONTINUE;
 }
@@ -118,8 +162,47 @@ void ModuleSceneIntro::CreateLine(const vec3 initialPos, const vec3 finalPos, ui
 	}
 }
 
-void ModuleSceneIntro::CreateCircle(const vec3 centre, const vec3 radius, uint numCubes)
+void ModuleSceneIntro::CreateClients()
 {
+	Cube cl(0.5f, 0.5f, 0.5f);
+	cl.color = Red;
+
+	for (uint j = 0; j < 5; j++)
+	{
+		clients.PushBack(cl);
+	}
+
+	//Placing clients
+	clients[0].SetPos(-4, 0.25f, -20);
+	clients[1].SetPos(4, 0.25f, -20);
+	clients[2].SetPos(-4, 0.25f, 20);
+	clients[3].SetPos(80, 0.25f, -20);
+	clients[4].SetPos(-80, 0.25f, 20);
+}
+
+
+//Changing the goal for different clients
+void ModuleSceneIntro::ChangeGoal(int num)
+{
+	switch (num)
+	{
+	case 0:
+		goalPos = vec3(250, 5, 200);
+		break;
+	case 1: 
+		goalPos = vec3(-80, 5, 50);
+		break;
+	case 2:
+		goalPos = vec3(150, 5, -100);
+		break;
+	case 3:
+		goalPos = vec3(-200, 5, -300);
+		break;
+	case 4:
+		goalPos = vec3(0, 5, 0);
+		break;
+
+	}
 
 }
 
