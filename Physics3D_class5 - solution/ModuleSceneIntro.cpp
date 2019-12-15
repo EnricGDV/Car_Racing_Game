@@ -338,6 +338,7 @@ void ModuleSceneIntro::ChangeGoal(int num)
 //Restarting game
 void ModuleSceneIntro::Restart()
 {
+	App->audio->PlayMusic("audio/music/Middle_Children.ogg");
 	game_timer.Start();
 	App->player->st = state::Empty;
 	App->player->vehicle->SetTransform(App->player->initMat);
