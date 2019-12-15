@@ -121,7 +121,35 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	Plane p(0, 1, 0, 0);
 	Cube floor(1000, 0.01, 1000);
+	Cube building1(20, 70, 80);
+	building1.SetPos(75, 0, 85);
+	Cube building2(20, 60, 20);
+	building2.SetPos(75, 0, 5);
+	Cube building3(20, 40, 20);
+	building3.SetPos(75, 0, -45);
+	Cube building4(20, 30, 20);
+	building4.SetPos(23, 0, -45);
+	Cube building5(20, 80, 20);
+	building5.SetPos(-25, 0, -45);
+	Cube building6(20, 35, 20);
+	building6.SetPos(23, 0, 5);
+	Cube building7(20, 60, 20);
+	building7.SetPos(-25, 0, 5);
 	floor.color = Grey;
+	building1.color = Blue;
+	building1.Render();
+	building2.color = Yellow;
+	building2.Render();
+	building3.color = Yellow;
+	building3.Render();
+	building4.color = Blue;
+	building4.Render();
+	building5.color = Blue;
+	building5.Render();
+	building6.color = Blue;
+	building6.Render();
+	building7.color = Yellow;
+	building7.Render();
 	floor.Render();
 	for (int i = 0; i < cube_pieces.primitive_bodies.Count(); i++)
 		cube_pieces.primitive_bodies[i].Render();
@@ -132,6 +160,7 @@ update_status ModuleSceneIntro::Update(float dt)
 	if (game_timer.Read() > 300000)
 	{
 		Restart();
+		App->audio->PlayFx(loseFx);
 		App->player->vehicle->info.color = Red;
 	}
 
