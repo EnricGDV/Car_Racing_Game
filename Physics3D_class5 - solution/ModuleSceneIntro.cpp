@@ -136,19 +136,19 @@ update_status ModuleSceneIntro::Update(float dt)
 	Cube building7(20, 60, 20);
 	building7.SetPos(-25, 0, 5);
 	floor.color = Grey;
-	building1.color = Blue;
+	building1.color = Grey;
 	building1.Render();
-	building2.color = Yellow;
+	building2.color = Grey;
 	building2.Render();
-	building3.color = Yellow;
+	building3.color = Grey;
 	building3.Render();
-	building4.color = Blue;
+	building4.color = Grey;
 	building4.Render();
-	building5.color = Blue;
+	building5.color = Grey;
 	building5.Render();
-	building6.color = Blue;
+	building6.color = Grey;
 	building6.Render();
-	building7.color = Yellow;
+	building7.color = Grey;
 	building7.Render();
 	floor.Render();
 	for (int i = 0; i < cube_pieces.primitive_bodies.Count(); i++)
