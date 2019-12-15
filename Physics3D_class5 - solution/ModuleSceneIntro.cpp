@@ -22,6 +22,11 @@ bool ModuleSceneIntro::Start()
 	CreateLine({ -48.0f, 0.0f, -10.0f }, { -48.0f, 0.0f, 20.0f }, 16, true);
 	CreateLine({ 0.0f, 0.0f, -30.0f }, { 0.0f, 0.0f, -60.0f }, 16, true);
 	CreateLine({ -48.0f, 0.0f, -30.0f }, { -48.0f, 0.0f, -60.0f }, 16, true);
+	CreateLine({ 98.0f, 0.0f, -30.0f }, { 98.0f, 0.0f, -60.0f }, 16, true);
+	CreateLine({ 98.0f, 0.0f, -10.0f }, { 98.0f, 0.0f, 20.0f }, 16, true);
+	CreateLine({ 98.0f, 0.0f, 40.0f }, { 98.0f, 0.0f, 70.0f }, 16, true);
+	CreateLine({ 98.0f, 0.0f, 70.0f }, { 98.0f, 0.0f, 100.0f }, 16, true);
+	CreateLine({ 98.0f, 0.0f, 100.0f }, { 98.0f, 0.0f, 130.0f }, 16, true);
 	CreateLine({ 48.0f, 0.0f, -10.0f }, { 48.0f, 0.0f, 20.0f }, 16, true);
 	CreateLine({ 48.0f, 0.0f, -30.0f }, { 48.0f, 0.0f, -60.0f }, 16, true);
 	CreateLine({ 48.0f, 0.0f, 40.0f }, { 48.0f, 0.0f, 70.0f }, 16, true);
@@ -42,7 +47,30 @@ bool ModuleSceneIntro::Start()
 	CreateLine({ 0.0f, 0.0f, 100.0f }, { 0.0f, 0.0f, 70.0f }, 16, true);
 	CreateLine({ -10.0f, 0.0f, 30.0f }, { -40.0f, 0.0f, 30.0f }, 16, true);
 
-	CreateLine({ 8.0f, 0.0f, 30.0f }, { -22.0f, 0.0f, 30.0f }, 16, false);
+	CreateLine({ 10.0f, 0.0f, 30.0f }, { -10.0f, 0.0f, 30.0f }, 10, false);
+	CreateLine({ -40.0f, 0.0f, 30.0f }, { -60.0f, 0.0f, 30.0f }, 10, false);
+
+
+	CreateLine({ 98.0f, 0.0f, 20.0f }, { 98.0f, 0.0f, 40.0f }, 10, false);
+	CreateLine({ 98.0f, 0.0f, -30.0f }, { 98.0f, 0.0f, -10.0f }, 10, false);
+	CreateLine({ 98.0f, 0.0f, -78.0f }, { 98.0f, 0.0f, -58.0f }, 10, false);
+	CreateLine({ 98.0f, 0.0f, 130.0f }, { 98.0f, 0.0f, 150.0f }, 10, false);
+
+	CreateLine({ -48.0f, 0.0f, -10.0f }, { -48.0f, 0.0f, -30.0f }, 10, false);
+	CreateLine({ -48.0f, 0.0f, -60.0f }, { -48.0f, 0.0f, -80.0f }, 10, false);
+	CreateLine({ -48.0f, 0.0f, 38.0f }, { -48.0f, 0.0f, 18.0f }, 10, false);
+
+	CreateLine({ 58.0f, 0.0f, 140.0f }, { 38.0f, 0.0f, 140.0f }, 10, false);
+	CreateLine({ 108.0f, 0.0f, 140.0f }, { 86.0f, 0.0f, 140.0f }, 10, false);
+	CreateLine({ 10.0f, 0.0f, 140.0f }, { -10.0f, 0.0f, 140.0f }, 10, false);
+
+	CreateLine({ 38.0f, 0.0f, -70.0f }, { 58.0f, 0.0f, -70.0f }, 10, false);
+	CreateLine({ 88.0f, 0.0f, -70.0f }, { 108.0f, 0.0f, -70.0f }, 10, false);
+	CreateLine({ -10.0f, 0.0f, -70.0f }, { 10.0f, 0.0f, -70.0f }, 10, false);
+	CreateLine({ -58.0f, 0.0f, -70.0f }, { -38.0f, 0.0f, -70.0f }, 10, false);
+
+	CreateLine({ 0.0f, 0.0f, 150.0f }, { 0.0f, 0.0f, 130.0f }, 10, false);
+
 	CreateLine({ 0.0f, 0.0f, 70.0f }, { 0.0f, 0.0f, 40.0f }, 16, false);
 
 
