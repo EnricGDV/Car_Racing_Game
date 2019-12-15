@@ -227,11 +227,11 @@ void ModuleSceneIntro::CreateClients()
 	}
 
 	//Placing clients
-	clients[0].SetPos(-4, 0.25f, -20);
-	clients[1].SetPos(4, 0.25f, -20);
-	clients[2].SetPos(-4, 0.25f, 20);
+	clients[0].SetPos(-50, 0.25f, -75);
+	clients[1].SetPos(0, 0.25f, -20);
+	clients[2].SetPos(100, 0.25f, 135);
 	clients[3].SetPos(80, 0.25f, -20);
-	clients[4].SetPos(-80, 0.25f, 20);
+	clients[4].SetPos(23, 0.25f, 125);
 }
 
 
@@ -241,16 +241,16 @@ void ModuleSceneIntro::ChangeGoal(int num)
 	switch (num)
 	{
 	case 0:
-		goalPos = vec3(250, 5, 200);
+		goalPos = vec3(100, 5, 100);
 		break;
 	case 1: 
-		goalPos = vec3(-80, 5, 50);
+		goalPos = vec3(-40, 5, 30);
 		break;
 	case 2:
-		goalPos = vec3(150, 5, -100);
+		goalPos = vec3(100, 5, 0);
 		break;
 	case 3:
-		goalPos = vec3(-200, 5, -300);
+		goalPos = vec3(75, 5, -75);
 		break;
 	case 4:
 		goalPos = vec3(0, 5, 0);
