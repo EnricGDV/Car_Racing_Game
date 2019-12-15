@@ -8,7 +8,7 @@
 ModulePlayer::ModulePlayer(Application* app, bool start_enabled) : Module(app, start_enabled), vehicle(NULL)
 {
 	turn = acceleration = brake = 0.0f;
-	initPos.Set(0, 10, 0);
+	initPos.Set(0, 2, 0);
 }
 
 ModulePlayer::~ModulePlayer()
@@ -31,6 +31,7 @@ bool ModulePlayer::Start()
 	car.maxSuspensionTravelCm = 1000.0f;
 	car.frictionSlip = 50.5;
 	car.maxSuspensionForce = 6000.0f;
+	car.color = Yellow;
 
 	// Wheel properties ---------------------------------------
 	float connection_height = 1.2f;
@@ -101,7 +102,8 @@ bool ModulePlayer::Start()
 
 	vehicle->SetPos(initPos.x, initPos.y, initPos.z);
 	vehicle->Rotate(3.14f);
-
+	vehicle->GetTransform(initMat);
+	vehicle->GetTransform(checkpointMat);
 	st = state::Empty;
 	
 	return true;
@@ -122,8 +124,12 @@ update_status ModulePlayer::Update(float dt)
 
 	if (App->input->GetKey(SDL_SCANCODE_F2) == KEY_DOWN)
 	{
-		vehicle->SetPos(initPos.x, initPos.y-10, initPos.z);
+		App->scene_intro->Restart();
+	}
 
+	if (App->input->GetKey(SDL_SCANCODE_F3) == KEY_DOWN)
+	{
+		App->player->vehicle->SetTransform(App->player->checkpointMat);
 	}
 
 	if(App->input->GetKey(SDL_SCANCODE_UP) == KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_LEFT) != KEY_REPEAT && App->input->GetKey(SDL_SCANCODE_RIGHT) != KEY_REPEAT)

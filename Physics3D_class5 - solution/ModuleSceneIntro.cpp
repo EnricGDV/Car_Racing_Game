@@ -54,6 +54,15 @@ bool ModuleSceneIntro::Start()
 	goal.SetRotation(90, vec3(0, 0, 1));
 	goalp = goal;
 
+	Line arrow(goalPos.x, 1, goalPos.z);
+	arrow.origin = App->player->pos;
+	arrow.destination = vec3(arrow.destination.x / 10, arrow.destination.y / 10, arrow.destination.z / 10);
+	arrow.color = Green;
+	arrowp = arrow;
+
+	satisfiedcl = 0;
+	game_timer.Start();
+
 	return ret;
 }
 
@@ -61,6 +70,9 @@ bool ModuleSceneIntro::Start()
 bool ModuleSceneIntro::CleanUp()
 {
 	LOG("Unloading Intro scene");
+	clients.Clear();
+	cube_pieces.physic_bodies.Clear();
+	cube_pieces.primitive_bodies.Clear();
 
 	return true;
 }
@@ -77,6 +89,12 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
+	if (game_timer.Read() > 300000)
+	{
+		Restart();
+		App->player->vehicle->info.color = Red;
+	}
+
 	for (int i = 0; i < clients.Count(); i++)
 	{
 		
@@ -85,30 +103,38 @@ update_status ModuleSceneIntro::Update(float dt)
  			App->player->st = state::Carrying;
 			App->player->client = i;
 			
-			
+			ChangeGoal(App->player->client);
 			goalp.SetPos(goalPos.x, goalPos.y, goalPos.z);
-
 		}
 
 		if (App->player->st == state::Carrying)
 		{
 			btQuaternion q = App->player->vehicle->vehicle->getChassisWorldTransform().getRotation();
 			App->player->vehicle->vehicle->getChassisWorldTransform().getOpenGLMatrix(&clients[App->player->client].transform);
-			btVector3 lw_offset(App->player->vehicle->info.chassis_offset.x + 0.5f, App->player->vehicle->info.chassis_offset.y + 0.5f, App->player->vehicle->info.chassis_offset.z - 0.6f);
+			btVector3 lw_offset(App->player->vehicle->info.chassis_offset.x - 0.5f, App->player->vehicle->info.chassis_offset.y + 0.5f, App->player->vehicle->info.chassis_offset.z - 0.6f);
 			lw_offset = lw_offset.rotate(q.getAxis(), q.getAngle());
 			clients[App->player->client].transform.M[12] += lw_offset.getX();
 			clients[App->player->client].transform.M[13] += lw_offset.getY();
 			clients[App->player->client].transform.M[14] += lw_offset.getZ();
+			arrowp.destination = vec3(App->player->pos.x + (goalp.transform.M[12] - App->player->pos.x) / 100, App->player->pos.y + 3, App->player->pos.z + (goalp.transform.M[14] - App->player->pos.z ) / 100);
+			arrowp.origin = vec3(App->player->pos.x, App->player->pos.y+ 3, App->player->pos.z);
 			goalp.Render();
+			arrowp.Render();
 
 			if (abs(App->player->pos.x - goalp.transform[12]) < 3 && abs(App->player->pos.z - goalp.transform[14]) < 3 && App->player->brake == BRAKE_POWER)
 			{
-				ChangeGoal(i);
 				App->player->st = state::Empty;
 				clients[App->player->client].color = Green;
 				clients[App->player->client].SetPos(App->player->pos.x, App->player->pos.y, App->player->pos.z);
 				clients[App->player->client].transform.M[12] += 2;
 				clients[App->player->client].transform.M[13] = 0.25f;
+				satisfiedcl++;
+				App->player->vehicle->GetTransform(App->player->checkpointMat);
+				if (satisfiedcl == 5)
+				{
+					App->player->vehicle->info.color = Green;
+					Restart();
+				}
 			}
 		}
 
@@ -204,5 +230,22 @@ void ModuleSceneIntro::ChangeGoal(int num)
 
 	}
 
+}
+
+//Restarting game
+void ModuleSceneIntro::Restart()
+{
+	game_timer.Start();
+	App->player->vehicle->SetTransform(App->player->initMat);
+	for (uint j = 0; j < 5; j++)
+	{
+		clients[j].color = Red;
+		App->player->st = state::Empty;
+	}
+	clients[0].SetPos(-4, 0.25f, -20);
+	clients[1].SetPos(4, 0.25f, -20);
+	clients[2].SetPos(-4, 0.25f, 20);
+	clients[3].SetPos(80, 0.25f, -20);
+	clients[4].SetPos(-80, 0.25f, 20);
 }
 

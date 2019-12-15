@@ -30,6 +30,7 @@ public:
 	void OnCollision(PhysBody3D* body1, PhysBody3D* body2);
 	void CreateLine(const vec3 iniPos, const vec3 finalPos, uint numCubes, bool isDouble);
 	void CreateClients();
+	void Restart();
 
 	void ChangeGoal(int num);
 
@@ -44,6 +45,10 @@ public:
 
 	Cubes cube_pieces;
 	Cylinder goalp;
+	Line arrowp;
 	vec3 goalPos;
 	p2DynArray<Cube> clients;
+	int satisfiedcl;
+
+	Timer game_timer;
 };

@@ -5,7 +5,7 @@
 
 struct PhysVehicle3D;
 
-#define MAX_ACCELERATION 1000.0f
+#define MAX_ACCELERATION 500.0f
 #define TURN_DEGREES 15.0f * DEGTORAD
 #define BRAKE_POWER 1000.0f
 
@@ -33,6 +33,8 @@ public:
 	float brake;
 	vec3 pos;
 	vec3 initPos;
+	float initMat[16];
+	float checkpointMat[16];
 	state st;
 
 	//Client being carried

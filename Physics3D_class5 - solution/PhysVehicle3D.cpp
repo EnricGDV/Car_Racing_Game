@@ -41,7 +41,7 @@ void PhysVehicle3D::Render()
 
 	Cube chassis(info.chassis_size.x, info.chassis_size.y, info.chassis_size.z);
 
-	chassis.color = Yellow;
+	chassis.color = info.color;
 
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&chassis.transform);
 	btQuaternion q = vehicle->getChassisWorldTransform().getRotation();
@@ -52,6 +52,15 @@ void PhysVehicle3D::Render()
 	chassis.transform.M[13] += offset.getY();
 	chassis.transform.M[14] += offset.getZ();
 
+	Cube driver(0.5f, 0.5f, 0.5f);
+    vehicle->getChassisWorldTransform().getOpenGLMatrix(&driver.transform);
+	btVector3 d_offset(info.chassis_offset.x + 0.5f, info.chassis_offset.y + 0.5f, info.chassis_offset.z);
+	d_offset = d_offset.rotate(q.getAxis(), q.getAngle());
+	driver.transform.M[12] += d_offset.getX();
+	driver.transform.M[13] += d_offset.getY();
+	driver.transform.M[14] += d_offset.getZ();
+	driver.color = Yellow;
+
 	Cube line(info.chassis_size.x/4, info.chassis_size.y, info.chassis_size.z);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&line.transform);
 	btVector3 l_offset(info.chassis_offset.x, info.chassis_offset.y + info.chassis_size.y / 50, info.chassis_offset.z - info.chassis_size.z / 500);
@@ -61,23 +70,23 @@ void PhysVehicle3D::Render()
 	line.transform.M[14] += l_offset.getZ();
 	line.color = Black;
 
-	Cube rightwing(info.chassis_size.x / 100, info.chassis_size.y*1.5f, info.chassis_size.z / 1.5f);
+	Cube rightwing(info.chassis_size.x / 100, info.chassis_size.y*1.3f, info.chassis_size.z / 1.5f);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&rightwing.transform);
 	btVector3 rw_offset(info.chassis_offset.x - info.chassis_size.x / 2.3f, info.chassis_offset.y + info.chassis_size.y / 2.5f, info.chassis_offset.z - info.chassis_size.z / 6);
 	rw_offset = rw_offset.rotate(q.getAxis(), q.getAngle());
 	rightwing.transform.M[12] += rw_offset.getX();
 	rightwing.transform.M[13] += rw_offset.getY();
 	rightwing.transform.M[14] += rw_offset.getZ();
-	rightwing.color = Yellow;
+	rightwing.color = info.color;
 
-	Cube leftwing(info.chassis_size.x / 100, info.chassis_size.y*1.5f, info.chassis_size.z / 1.5f);
+	Cube leftwing(info.chassis_size.x / 100, info.chassis_size.y*1.3f, info.chassis_size.z / 1.5f);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&leftwing.transform);
 	btVector3 lw_offset(info.chassis_offset.x + info.chassis_size.x / 2.3f, info.chassis_offset.y + info.chassis_size.y / 2.5f, info.chassis_offset.z - info.chassis_size.z / 6);
 	lw_offset = lw_offset.rotate(q.getAxis(), q.getAngle());
 	leftwing.transform.M[12] += lw_offset.getX();
 	leftwing.transform.M[13] += lw_offset.getY();
 	leftwing.transform.M[14] += lw_offset.getZ();
-	leftwing.color = Yellow;
+	leftwing.color = info.color;
 
 	Cube visor(info.chassis_size.x / 1.15f, info.chassis_size.y*2, info.chassis_size.z / 100);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&visor.transform);
@@ -86,7 +95,7 @@ void PhysVehicle3D::Render()
 	visor.transform.M[12] += v_offset.getX();
 	visor.transform.M[13] += v_offset.getY();
 	visor.transform.M[14] += v_offset.getZ();
-	visor.color = Transparent;
+	visor.color = { info.color.r-0.7f, info.color.g-0.65f, info.color.b-0.8f };
 
 	Cube plate(info.chassis_size.x / 2.3f, info.chassis_size.y / 1.75f, info.chassis_size.z / 100);
 	vehicle->getChassisWorldTransform().getOpenGLMatrix(&plate.transform);
@@ -116,6 +125,7 @@ void PhysVehicle3D::Render()
 	seatb.color = Maroon;
 
 	chassis.Render();
+	driver.Render();
 	line.Render();
 	rightwing.Render();
 	leftwing.Render();
