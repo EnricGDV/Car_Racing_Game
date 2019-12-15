@@ -90,10 +90,17 @@ bool ModuleSceneIntro::Start()
 	arrow.color = Green;
 	arrowp = arrow;
 
-	App->audio->PlayMusic("Music/Middle_Children.ogg");
+	App->audio->PlayMusic("audio/music/Middle_Children.ogg");
+
+	winFx = App->audio->LoadFx("audio/fx/win.wav");
+	arrivedFx = App->audio->LoadFx("audio/fx/ka-ching.wav");
+	pickupFx = App->audio->LoadFx("audio/fx/pickup.wav");
+	loseFx = App->audio->LoadFx("audio/fx/lose.wav");
 
 	satisfiedcl = 0;
 	game_timer.Start();
+
+	
 
 	return ret;
 }
@@ -114,10 +121,11 @@ update_status ModuleSceneIntro::Update(float dt)
 {
 	Plane p(0, 1, 0, 0);
 	Cube floor(1000, 0.01, 1000);
-	for (int i = 0; i < cube_pieces.primitive_bodies.Count(); i++)
-		cube_pieces.primitive_bodies[i].Render();
 	floor.color = Grey;
 	floor.Render();
+	for (int i = 0; i < cube_pieces.primitive_bodies.Count(); i++)
+		cube_pieces.primitive_bodies[i].Render();
+	
 	p.axis = true;
 	p.Render();
 
@@ -134,6 +142,8 @@ update_status ModuleSceneIntro::Update(float dt)
 		{
  			App->player->st = state::Carrying;
 			App->player->client = i;
+
+			App->audio->PlayFx(pickupFx);
 			
 			ChangeGoal(App->player->client);
 			goalp.SetPos(goalPos.x, goalPos.y, goalPos.z);
@@ -156,6 +166,9 @@ update_status ModuleSceneIntro::Update(float dt)
 			if (abs(App->player->pos.x - goalp.transform[12]) < 3 && abs(App->player->pos.z - goalp.transform[14]) < 3 && App->player->brake == BRAKE_POWER)
 			{
 				App->player->st = state::Empty;
+
+				App->audio->PlayFx(arrivedFx);
+
 				clients[App->player->client].color = Green;
 				clients[App->player->client].SetPos(App->player->pos.x, App->player->pos.y, App->player->pos.z);
 				clients[App->player->client].transform.M[12] += 2;
@@ -164,6 +177,7 @@ update_status ModuleSceneIntro::Update(float dt)
 				App->player->vehicle->GetTransform(App->player->checkpointMat);
 				if (satisfiedcl == 5)
 				{
+					App->audio->PlayFx(winFx);
 					App->player->vehicle->info.color = Green;
 					Restart();
 				}
@@ -274,10 +288,10 @@ void ModuleSceneIntro::Restart()
 		clients[j].color = Red;
 		App->player->st = state::Empty;
 	}
-	clients[0].SetPos(-4, 0.25f, -20);
-	clients[1].SetPos(4, 0.25f, -20);
-	clients[2].SetPos(-4, 0.25f, 20);
+	clients[0].SetPos(-50, 0.25f, -75);
+	clients[1].SetPos(0, 0.25f, -20);
+	clients[2].SetPos(100, 0.25f, 135);
 	clients[3].SetPos(80, 0.25f, -20);
-	clients[4].SetPos(-80, 0.25f, 20);
+	clients[4].SetPos(23, 0.25f, 125);
 }
 

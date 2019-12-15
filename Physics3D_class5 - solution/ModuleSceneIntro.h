@@ -49,6 +49,10 @@ public:
 	vec3 goalPos;
 	p2DynArray<Cube> clients;
 	int satisfiedcl;
+	uint winFx;
+	uint arrivedFx;
+	uint loseFx;
+	uint pickupFx;
 
 	Timer game_timer;
 };
