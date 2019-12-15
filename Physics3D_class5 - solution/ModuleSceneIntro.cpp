@@ -157,6 +157,20 @@ update_status ModuleSceneIntro::Update(float dt)
 	p.axis = true;
 	p.Render();
 
+	if (App->input->GetKey(SDL_SCANCODE_F4) == KEY_DOWN)
+	{
+		App->audio->PlayFx(winFx);
+		App->player->vehicle->info.color = Green;
+		Restart();
+	}
+
+	if (App->input->GetKey(SDL_SCANCODE_F5) == KEY_DOWN)
+	{
+		Restart();
+		App->audio->PlayFx(loseFx);
+		App->player->vehicle->info.color = Red;;
+	}
+
 	if (game_timer.Read() > 300000)
 	{
 		Restart();
@@ -187,7 +201,7 @@ update_status ModuleSceneIntro::Update(float dt)
 			clients[App->player->client].transform.M[12] += lw_offset.getX();
 			clients[App->player->client].transform.M[13] += lw_offset.getY();
 			clients[App->player->client].transform.M[14] += lw_offset.getZ();
-			arrowp.destination = vec3(App->player->pos.x + (goalp.transform.M[12] - App->player->pos.x) / 100, App->player->pos.y + 3, App->player->pos.z + (goalp.transform.M[14] - App->player->pos.z ) / 100);
+			arrowp.destination = vec3(App->player->pos.x + (goalp.transform.M[12] - App->player->pos.x) / 50, App->player->pos.y + 3, App->player->pos.z + (goalp.transform.M[14] - App->player->pos.z ) / 50);
 			arrowp.origin = vec3(App->player->pos.x, App->player->pos.y+ 3, App->player->pos.z);
 			goalp.Render();
 			arrowp.Render();
@@ -311,11 +325,11 @@ void ModuleSceneIntro::ChangeGoal(int num)
 void ModuleSceneIntro::Restart()
 {
 	game_timer.Start();
+	App->player->st = state::Empty;
 	App->player->vehicle->SetTransform(App->player->initMat);
 	for (uint j = 0; j < 5; j++)
 	{
 		clients[j].color = Red;
-		App->player->st = state::Empty;
 	}
 	clients[0].SetPos(-50, 0.25f, -75);
 	clients[1].SetPos(0, 0.25f, -20);

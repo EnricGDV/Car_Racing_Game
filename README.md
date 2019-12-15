@@ -14,10 +14,12 @@ The game has been made using C++, Visual Studio and Bullet 3D, OpenGl and SDL li
 -Debug                 --> F1
 -Restart               --> F2
 -Go to Checkpoint      --> F3     (last destination)
+-Instant Win           --> F4 
+-Instant Lose          --> F5 
 -Free Camera(WASDRF)   --> F10
 
 ### Instructions
-Try to get all the clients(red cubes) to their destination before the time ends.
+Try to get all the clients(red cubes) to their destination(green cylinders) before the time ends.
 If the time ends and all clients to their destination, you lose(taxi turns red) and the game gets restarted.
 If you accomplish the goal, the game also restarts but your taxi will turn green.
 You will see a green line that leads you to each destination when you get a client, you should follow it.
