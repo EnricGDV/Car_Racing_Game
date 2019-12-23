@@ -199,7 +199,7 @@ update_status ModulePlayer::Update(float dt)
 	vehicle->Render();
 
 	char title[80];
-	sprintf_s(title, "%.1f Km/h, %ds left, %d/5 clients satisfied", vehicle->GetKmh(), 320 - App->scene_intro->game_timer.Read()/1000, App->scene_intro->satisfiedcl);
+	sprintf_s(title, "%.1f Km/h, %ds left, %d/5 clients satisfied", vehicle->GetKmh(), 200 - App->scene_intro->game_timer.Read()/1000, App->scene_intro->satisfiedcl);
 	App->window->SetTitle(title);
 
 	btTransform t;
